@@ -1,5 +1,8 @@
 package EX2;
 
-public class Callable {
+interface Callable {
+    public  int call (String filename);
 
-}
+    }
+
+

@@ -44,7 +44,6 @@ public class Ex_1 {
             String filename = fileNames[i];
             threads[i] = new Thread()  {
                 public void run() {
-
                 try {
                     BufferedReader reader = new BufferedReader(new FileReader(filename));
                     while (reader.readLine() != null) {
@@ -65,7 +64,8 @@ public class Ex_1 {
 
 
 
-public int getNumOfLinesThreadPool(String[] fileNames){
+public static int getNumOfLinesThreadPool(String[] fileNames){
+
 
 
         return 0;
@@ -77,9 +77,9 @@ public int getNumOfLinesThreadPool(String[] fileNames){
         System.out.println(Arrays.toString(output));
         int numofr = getNumOfLines(output);
         int numoft = getNumOfLinesThreads(output);
+        int numoftp = getNumOfLinesThreadPool(output);
         System.out.println(numofr);
         System.out.println(numoft);
-
-
+        System.out.println(numoftp);
     }
 }
