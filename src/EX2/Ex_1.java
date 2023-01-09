@@ -38,32 +38,35 @@ public class Ex_1 {
     }
     public static int getNumOfLinesThreads(String[] fileNames) throws InterruptedException {
         int n = fileNames.length;
-        AtomicInteger counter = new AtomicInteger();
+        AtomicInteger sumoflines = new AtomicInteger();
         Thread[] threads = new Thread[n];
         for (int i = 0; i < n; i++) {
             String filename = fileNames[i];
-            threads[i] = new Thread(() -> {
+            threads[i] = new Thread()  {
+                public void run() {
+
                 try {
                     BufferedReader reader = new BufferedReader(new FileReader(filename));
                     while (reader.readLine() != null) {
-                        counter.incrementAndGet();
+                        sumoflines.incrementAndGet();
                     }
                     reader.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            });
+            }};
             threads[i].start();
         }
         for (int i = 0; i < n; i++) {
             threads[i].join();
         }
-        return counter.get();
+        return sumoflines.get();
     }
 
 
 
 public int getNumOfLinesThreadPool(String[] fileNames){
+
 
         return 0;
     }
