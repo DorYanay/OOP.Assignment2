@@ -22,7 +22,7 @@ public class Task<T> extends FutureTask<T> implements Callable<T>, Comparable<Ta
     this.type=type;
     }
 
-    public Callable<T> getCable() {
+    public Callable<T> getCallable() {
         return cable;
     }
 
