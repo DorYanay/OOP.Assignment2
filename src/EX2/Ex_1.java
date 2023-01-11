@@ -32,7 +32,7 @@ public class Ex_1 {
     }
 
     public static int getNumOfLines(String[] fileNames) throws IOException {
-        Instant start = Instant.now();
+//        Instant start = Instant.now();
         if (fileNames == null) {
             return 0;
         }
@@ -45,13 +45,13 @@ public class Ex_1 {
             }
             reader.close();
         }
-        Instant end = Instant.now();
-        Duration timeElapsed = Duration.between(start, end);
-        System.out.println("Time taken numoflines: "+ timeElapsed.toMillis() +" milliseconds");
+//        Instant end = Instant.now();
+//        Duration timeElapsed = Duration.between(start, end);
+//        System.out.println("Time taken numoflines: "+ timeElapsed.toMillis() +" milliseconds");
         return sumoflines;
     }
     public static int getNumOfLinesThreads(String[] fileNames) throws InterruptedException{
-        Instant start = Instant.now();
+//        Instant start = Instant.now();
         if (fileNames == null) {
             return 0;
         }
@@ -66,14 +66,14 @@ public class Ex_1 {
             currentFileThread[i].join();
             totalLines = totalLines+ currentFileThread[i].returnLines();
         }
-        Instant end = Instant.now();
-        Duration timeElapsed = Duration.between(start, end);
-        System.out.println("Time taken numoflinesthread: "+ timeElapsed.toMillis() +" milliseconds");
+//        Instant end = Instant.now();
+//        Duration timeElapsed = Duration.between(start, end);
+//        System.out.println("Time taken numoflinesthread: "+ timeElapsed.toMillis() +" milliseconds");
         return totalLines;
     }
 
     public static int getNumOfLinesThreadPool(String[] fileNames){
-        Instant start = Instant.now();
+//        Instant start = Instant.now();
         if (fileNames == null) {
             return 0;
         }
@@ -95,9 +95,9 @@ public class Ex_1 {
             }
 
         }
-        Instant end = Instant.now();
-        Duration timeElapsed = Duration.between(start, end);
-        System.out.println("Time taken numoflinesthreadpool: "+ timeElapsed.toMillis() +" milliseconds");
+//        Instant end = Instant.now();
+//        Duration timeElapsed = Duration.between(start, end);
+//        System.out.println("Time taken numoflinesthreadpool: "+ timeElapsed.toMillis() +" milliseconds");
         threadPool.shutdown();
         return totalLines;
     }
@@ -105,12 +105,19 @@ public class Ex_1 {
 
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        String[] output = createTextFiles(1000, 1, 1000000);
-        int numofr = getNumOfLines(output);
-        int numoft = getNumOfLinesThreads(output);
-        int numoftp = getNumOfLinesThreadPool(output);
-        System.out.println(numofr);
-        System.out.println(numoft);
-        System.out.println(numoftp);
+        String[] output = createTextFiles(1000, 1, 100000);
+        Instant start = Instant.now();
+        System.out.println(getNumOfLines(output));
+        Instant end = Instant.now();
+        System.out.println("Time taken numoflines: "+ Duration.between(start, end).toMillis() +" milliseconds");
+        start = Instant.now();
+        System.out.println(getNumOfLinesThreads(output));
+        end = Instant.now();
+        System.out.println("Time taken numoflinesthreads: "+ Duration.between(start, end).toMillis() +" milliseconds");
+        start = Instant.now();
+        System.out.println(getNumOfLinesThreadPool(output));
+        end = Instant.now();
+        System.out.println("Time taken numoflinesthreadpool: "+ Duration.between(start, end).toMillis() +" milliseconds");
+
     }
 }
