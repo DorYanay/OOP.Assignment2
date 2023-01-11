@@ -50,61 +50,27 @@ public class Ex_1 {
         System.out.println("Time taken numoflines: "+ timeElapsed.toMillis() +" milliseconds");
         return sumoflines;
     }
-
-    public static int getNumOfLinesThreads(String[] fileNames) throws InterruptedException {
+    public static int getNumOfLinesThreads(String[] fileNames) throws InterruptedException{
         Instant start = Instant.now();
         if (fileNames == null) {
             return 0;
         }
+        int totalLines = 0;
         int n = fileNames.length;
-        AtomicInteger sumoflines = new AtomicInteger();
-        Thread[] threads = new Thread[n];
+        MyThread[] currentFileThread = new MyThread[fileNames.length];
         for (int i = 0; i < n; i++) {
-            String filename = fileNames[i];
-            threads[i] = new Thread() {
-                public void run() {
-                    try {
-                        BufferedReader reader = new BufferedReader(new FileReader(filename));
-                        while (reader.readLine() != null) {
-                            sumoflines.incrementAndGet();
-                        }
-                        reader.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-            threads[i].start();
+            currentFileThread[i] = new MyThread(fileNames[i]);
+            currentFileThread[i].start();
         }
-        for (int i = 0; i < n; i++) {
-            threads[i].join();
+        for (int i = 0;i<n;i++) {
+            currentFileThread[i].join();
+            totalLines = totalLines+ currentFileThread[i].returnLines();
         }
         Instant end = Instant.now();
         Duration timeElapsed = Duration.between(start, end);
-        System.out.println("Time taken numoflinesthreads: "+ timeElapsed.toMillis() +" milliseconds");
-        return sumoflines.get();
+        System.out.println("Time taken numoflinesthread: "+ timeElapsed.toMillis() +" milliseconds");
+        return totalLines;
     }
-//    public static int getNumOfLinesThreads(String[] fileNames) throws InterruptedException{
-//        Instant start = Instant.now();
-//        if (fileNames == null) {
-//            return 0;
-//        }
-//        int totalLines = 0;
-//        int n = fileNames.length;
-//        MyThread[] currentFileThread = new MyThread[fileNames.length];
-//        for (int i = 0; i < n; i++) {
-//            currentFileThread[i] = new MyThread(fileNames[i]);
-//            currentFileThread[i].start();
-//            totalLines = totalLines+ currentFileThread[i].returnLines();
-//        }
-//        for (int i = 0;i<n;i++) {
-//            currentFileThread[i].join();
-//        }
-//        Instant end = Instant.now();
-//        Duration timeElapsed = Duration.between(start, end);
-//        System.out.println("Time taken numoflinesthread: "+ timeElapsed.toMillis() +" milliseconds");
-//        return totalLines;
-//    }
 
     public static int getNumOfLinesThreadPool(String[] fileNames){
         Instant start = Instant.now();
@@ -137,9 +103,9 @@ public class Ex_1 {
     }
 
 
+
     public static void main(String[] args) throws IOException, InterruptedException {
-        String[] output = createTextFiles(10, 1, 10000);
-        System.out.println(Arrays.toString(output));
+        String[] output = createTextFiles(1000, 1, 1000000);
         int numofr = getNumOfLines(output);
         int numoft = getNumOfLinesThreads(output);
         int numoftp = getNumOfLinesThreadPool(output);

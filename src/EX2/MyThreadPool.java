@@ -1,5 +1,5 @@
 package EX2;
-import java.io.File;
+import java.io.*;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
         import java.io.File;
@@ -19,14 +19,15 @@ public class MyThreadPool implements Callable {
             this.totalLines =0;
             return null;
         }
-        File currentFile = new File(this.filename);
-//        System.out.println("reading file: " + this.filename);
-        Scanner lineScanner = new Scanner(currentFile);
-        while (lineScanner.hasNextLine()) {
-            this.totalLines++;
-            lineScanner.nextLine();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            while (reader.readLine() != null) {
+                totalLines++;
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        lineScanner.close();
         return this.totalLines;
     }
 }

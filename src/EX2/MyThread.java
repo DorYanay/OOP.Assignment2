@@ -1,6 +1,5 @@
 package EX2;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Scanner;
 
 public class MyThread extends Thread {
@@ -13,13 +12,15 @@ public class MyThread extends Thread {
             return 0;
         }
         int totalLines = 0;
-        File currentFile = new File(fileName);
-        Scanner lineScanner = new Scanner(currentFile);
-        while (lineScanner.hasNextLine()) {
-            totalLines++;
-            lineScanner.nextLine();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+            while (reader.readLine() != null) {
+                totalLines++;
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        lineScanner.close();
 
         return totalLines;
     }
