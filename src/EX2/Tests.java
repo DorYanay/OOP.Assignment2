@@ -36,6 +36,8 @@ public class Tests {
             return 1000 * Math.pow(1.02, 5);
         }, TaskType.COMPUTATIONAL);
         var reverseTask = customExecutor.submit(callable2, TaskType.IO);
+        logger.info(()-> "Current maximum priority = " +
+                customExecutor.getCurrentMax());
         final Double totalPrice;
         final String reversed;
         try {
