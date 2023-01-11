@@ -9,7 +9,8 @@ public class CustomExecutor extends ThreadPoolExecutor {
     private static int numOfCores = Runtime.getRuntime().availableProcessors();
     private static PriorityBlockingQueue Qt;
     private int max = 0;
-    private Task Executed;
+    private int mid =0;
+    private int low = 0;
 
     public CustomExecutor() {
         super(numOfCores / 2, numOfCores - 1, 300, TimeUnit.MILLISECONDS,
@@ -41,8 +42,13 @@ public class CustomExecutor extends ThreadPoolExecutor {
 //    }
 
     public int getCurrentMax() {
-        return max;
-
+        if(max > 1) {
+            return 1;
+        }
+        else if(mid > 1) {
+            return 2;
+        }
+        return low;
     }
 
     public void gracefullyTerminate() {

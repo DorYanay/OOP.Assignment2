@@ -78,11 +78,9 @@ public class Ex_1 {
             return 0;
         }
         ExecutorService threadPool = Executors.newFixedThreadPool(fileNames.length);
-        MyThreadPool[] fileThreads = new MyThreadPool[fileNames.length];
         int totalLines=0;
         for(int i=0; i< fileNames.length; i++){
-            fileThreads[i] = new MyThreadPool(fileNames[i]);//callable
-            Future<Integer> f = threadPool.submit(fileThreads[i]);//future for current fileThread
+            Future<Integer> f = threadPool.submit(new MyThreadPool(fileNames[i]));//future for current fileThread
             Integer numOfLinesInFile;
             try {
                 numOfLinesInFile= f.get();
