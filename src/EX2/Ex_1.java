@@ -12,6 +12,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static EX2.Ex_1.*;
+import static java.lang.Thread.sleep;
 
 public class Ex_1 {
     public static String[] createTextFiles(int n, int seed, int bound) throws IOException {
@@ -32,7 +33,7 @@ public class Ex_1 {
     }
 
     public static int getNumOfLines(String[] fileNames) throws IOException {
-//        Instant start = Instant.now();
+
         if (fileNames == null) {
             return 0;
         }
@@ -45,13 +46,11 @@ public class Ex_1 {
             }
             reader.close();
         }
-//        Instant end = Instant.now();
-//        Duration timeElapsed = Duration.between(start, end);
-//        System.out.println("Time taken numoflines: "+ timeElapsed.toMillis() +" milliseconds");
+
         return sumoflines;
     }
     public static int getNumOfLinesThreads(String[] fileNames) throws InterruptedException{
-//        Instant start = Instant.now();
+
         if (fileNames == null) {
             return 0;
         }
@@ -66,36 +65,30 @@ public class Ex_1 {
             currentFileThread[i].join();
             totalLines = totalLines+ currentFileThread[i].returnLines();
         }
-//        Instant end = Instant.now();
-//        Duration timeElapsed = Duration.between(start, end);
-//        System.out.println("Time taken numoflinesthread: "+ timeElapsed.toMillis() +" milliseconds");
         return totalLines;
     }
 
     public static int getNumOfLinesThreadPool(String[] fileNames){
-//        Instant start = Instant.now();
+
         if (fileNames == null) {
             return 0;
         }
         ExecutorService threadPool = Executors.newFixedThreadPool(fileNames.length);
         int totalLines=0;
-        for(int i=0; i< fileNames.length; i++){
-            Future<Integer> f = threadPool.submit(new MyThreadPool(fileNames[i]));//future for current fileThread
-            Integer numOfLinesInFile;
+        Integer numOfLinesInFile;
+        Future<Integer>[] f = new Future[fileNames.length];
+        for(int i=0; i< fileNames.length; i++) {
+            f[i] = threadPool.submit(new MyThreadPool(fileNames[i]));//future for current fileThread
+        }
+        for(int i = 0;i<fileNames.length;i++){
             try {
-                numOfLinesInFile= f.get();
+                numOfLinesInFile= f[i].get();
                 totalLines = totalLines + numOfLinesInFile;
 
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            } catch (ExecutionException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-
         }
-//        Instant end = Instant.now();
-//        Duration timeElapsed = Duration.between(start, end);
-//        System.out.println("Time taken numoflinesthreadpool: "+ timeElapsed.toMillis() +" milliseconds");
         threadPool.shutdown();
         return totalLines;
     }
@@ -103,7 +96,7 @@ public class Ex_1 {
 
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        String[] output = createTextFiles(300, 1, 100000);
+        String[] output = createTextFiles(800, 1, 100000);
         Instant start = Instant.now();
         System.out.println(getNumOfLines(output));
         Instant end = Instant.now();
