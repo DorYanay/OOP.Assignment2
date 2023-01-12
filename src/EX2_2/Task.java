@@ -1,4 +1,4 @@
-package EX2;
+package EX2_2;
 
 import java.util.Objects;
 import java.util.concurrent.Callable;

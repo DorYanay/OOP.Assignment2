@@ -1,9 +1,7 @@
 
 
-package EX2;
+package EX2_2;
 
-import java.io.IOException;
-import java.util.PriorityQueue;
 import java.util.concurrent.*;
 import java.util.concurrent.Callable;
 
