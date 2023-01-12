@@ -137,7 +137,7 @@ public class Ex_1 {
 
 //main with time measurement.
     public static void main(String[] args) throws IOException, InterruptedException {
-        String[] output = createTextFiles(2000, 1, 200000);
+        String[] output = createTextFiles(1000, 1, 200000);
         Instant start = Instant.now();
         System.out.println(getNumOfLines(output));
         Instant end = Instant.now();
