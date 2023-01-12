@@ -25,6 +25,15 @@ import static java.lang.Thread.sleep;
  */
 public class Ex_1 {
     //FILES CREATIONS
+
+    /**
+     *
+     * @param n - number of files
+     * @param seed - used for creating a new random number generator.
+     * @param bound - maximum number of lines for each file the program create.
+     * @return String array that contains the names of the files.
+     * @throws IOException
+     */
     public static String[] createTextFiles(int n, int seed, int bound) throws IOException {
         String[] filenames = new String[n];
         Random rand = new Random(seed);
@@ -42,6 +51,13 @@ public class Ex_1 {
         return filenames;
     }
 //NumOfLines function Non-threads.
+
+    /**
+     * read the lines using the main thread only.
+     * @param fileNames - the given String array with the names of the files the program will read.
+     * @return sumoflines - Integer with the sum of all the lines of all the files.
+     * @throws IOException
+     */
     public static int getNumOfLines(String[] fileNames) throws IOException {
 
         if (fileNames == null) {
@@ -60,6 +76,13 @@ public class Ex_1 {
         return sumoflines;
     }
     //NumOfLines function with threads.
+
+    /**
+     * read lines using multiple threads.
+     * @param fileNames - the given String array with the names of the files the program will read.
+     * @return totalLines - Integer with the sum of all the lines of all the files.
+     * @throws InterruptedException
+     */
     public static int getNumOfLinesThreads(String[] fileNames) throws InterruptedException{
 
         if (fileNames == null) {
@@ -80,6 +103,12 @@ public class Ex_1 {
     }
 
     //NumOfLines function using ThreadPool.
+
+    /**
+     * this Function using threadpool to manage the threads.
+     * @param fileNames - the given String array with the names of the files the program will read.
+     * @return totalLines - Integer with the sum of all the lines of all the files.
+     */
     public static int getNumOfLinesThreadPool(String[] fileNames){
 
         if (fileNames == null) {
@@ -98,7 +127,7 @@ public class Ex_1 {
                 totalLines = totalLines + numOfLinesInFile;
 
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                System.err.println(e);
             }
         }
         threadPool.shutdown();
