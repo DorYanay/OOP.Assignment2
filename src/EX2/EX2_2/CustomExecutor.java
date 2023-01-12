@@ -1,6 +1,6 @@
 
 
-package EX2_2;
+package EX2.EX2_2;
 
 import java.util.concurrent.*;
 import java.util.concurrent.Callable;
