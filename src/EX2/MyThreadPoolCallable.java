@@ -6,10 +6,11 @@ import java.util.concurrent.Callable;
         import java.util.Scanner;
         import java.util.concurrent.Callable;
 
-public class MyThreadPool implements Callable {
+//Sub Class for the forth questions in Part1 of the Assignment.
+public class MyThreadPoolCallable implements Callable {
     private String filename;
     private int totalLines;
-    public MyThreadPool(String filename){
+    public MyThreadPoolCallable(String filename){
         this.filename = filename;
     }
 

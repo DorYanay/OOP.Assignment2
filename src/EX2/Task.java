@@ -4,10 +4,19 @@ import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
+/**
+ * @authors Dor Yanay, Yevgeny Ivanov
+ * this Program was written for Object Orienting Programming Course as an Assignment.
+ * Sub Classes:
+ * TaskType.java - enum that we were given.
+ * for more information and diagrams you can look at the readme in the GitHub page.
+ */
+
 public class Task<T> extends FutureTask<T> implements Callable<T>, Comparable<Task<T>> {
     private TaskType type;
     private Callable<T> cable;
 
+    //Constructors
     private Task(Callable<T> cable) {
         this(TaskType.OTHER, cable);
     }
@@ -18,10 +27,11 @@ public class Task<T> extends FutureTask<T> implements Callable<T>, Comparable<Ta
         this.type = type;
     }
 
+    //Getters and Setters
     public TaskType getType() {
         return type;
     }
-    public TaskType getTaskType() {return type.getType();}
+
     public void setType(TaskType tasktype) {
         this.type = type;
     }
@@ -34,6 +44,12 @@ public class Task<T> extends FutureTask<T> implements Callable<T>, Comparable<Ta
         this.cable = cable;
     }
 
+    //Methods.
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, cable);
+    }
+
     public boolean equals(Task<T> type) {
         if (this.compareTo(type) == 0) {
             return true;
@@ -41,14 +57,15 @@ public class Task<T> extends FutureTask<T> implements Callable<T>, Comparable<Ta
         return false;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(type, cable);
-    }
 
     @Override
     public T call() throws Exception {
         return cable.call();
+    }
+
+    //Methods that was "inherited" from TaskType
+    public TaskType getTaskType() {
+        return type.getType();
     }
 
     @Override
@@ -60,6 +77,7 @@ public class Task<T> extends FutureTask<T> implements Callable<T>, Comparable<Ta
         return 0;
     }
 
+    //Factory methods:
     public static <T> Task<T> createTask(Callable<T> cable) {
         return new Task<T>(cable);
     }

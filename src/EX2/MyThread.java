@@ -1,7 +1,7 @@
 package EX2;
 import java.io.*;
 import java.util.Scanner;
-
+//Sub Class for the third questions in Part1 of the Assignment.
 public class MyThread extends Thread {
 
     private String fileName;

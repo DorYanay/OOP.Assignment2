@@ -13,8 +13,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static EX2.Ex_1.*;
 import static java.lang.Thread.sleep;
-
+/**
+ * @author Dor Yanay, Yevgeny Ivanov
+ * this Program was written for Object Orienting Programming Course as an Assignment.
+ * In this Class we are checking the differences in times when using 3 different algorithms.
+ * non-thread , threads, threadpool.
+ * You can look at the readme page to see the results and diagrams.
+ * Sub Classes:
+ * MyThread.java - for the third function.
+ * MyThreadPoolCallable - for the forth function.
+ */
 public class Ex_1 {
+    //FILES CREATIONS
     public static String[] createTextFiles(int n, int seed, int bound) throws IOException {
         String[] filenames = new String[n];
         Random rand = new Random(seed);
@@ -31,7 +41,7 @@ public class Ex_1 {
         }
         return filenames;
     }
-
+//NumOfLines function Non-threads.
     public static int getNumOfLines(String[] fileNames) throws IOException {
 
         if (fileNames == null) {
@@ -49,6 +59,7 @@ public class Ex_1 {
 
         return sumoflines;
     }
+    //NumOfLines function with threads.
     public static int getNumOfLinesThreads(String[] fileNames) throws InterruptedException{
 
         if (fileNames == null) {
@@ -68,6 +79,7 @@ public class Ex_1 {
         return totalLines;
     }
 
+    //NumOfLines function using ThreadPool.
     public static int getNumOfLinesThreadPool(String[] fileNames){
 
         if (fileNames == null) {
@@ -78,7 +90,7 @@ public class Ex_1 {
         Integer numOfLinesInFile;
         Future<Integer>[] f = new Future[fileNames.length];
         for(int i=0; i< fileNames.length; i++) {
-            f[i] = threadPool.submit(new MyThreadPool(fileNames[i]));//future for current fileThread
+            f[i] = threadPool.submit(new MyThreadPoolCallable(fileNames[i]));//future for current fileThread
         }
         for(int i = 0;i<fileNames.length;i++){
             try {
@@ -94,7 +106,7 @@ public class Ex_1 {
     }
 
 
-
+//main with time measurement.
     public static void main(String[] args) throws IOException, InterruptedException {
         String[] output = createTextFiles(800, 1, 100000);
         Instant start = Instant.now();
